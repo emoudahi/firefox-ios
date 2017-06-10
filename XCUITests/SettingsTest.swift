@@ -22,10 +22,23 @@ class SettingsTest: BaseTestCase {
         navigator.goto(SettingsScreen)
         let appsettingstableviewcontrollerTableviewTable = app.tables["AppSettingsTableViewController.tableView"]
         appsettingstableviewcontrollerTableviewTable.cells["OpenWith.Setting"].swipeUp()
+        waitforExistence(appsettingstableviewcontrollerTableviewTable.staticTexts["Use Compact Tabs"])
         appsettingstableviewcontrollerTableviewTable.staticTexts["Use Compact Tabs"].swipeUp()
+        
+        wait(for: 2)
+        waitforExistence(appsettingstableviewcontrollerTableviewTable.staticTexts["Passcode"])
         appsettingstableviewcontrollerTableviewTable.staticTexts["Passcode"].swipeUp()
+        
+        wait(for: 2)
+        waitforExistence(appsettingstableviewcontrollerTableviewTable.staticTexts["Privacy Policy"])
+        appsettingstableviewcontrollerTableviewTable.staticTexts["Privacy Policy"].swipeUp()
+        
+        wait(for: 2)
+        waitforExistence(appsettingstableviewcontrollerTableviewTable.staticTexts["Show Tour"])
         appsettingstableviewcontrollerTableviewTable.staticTexts["Show Tour"].swipeUp()
-        wait(for: 5)
+        
+        wait(for: 2)
+        waitforExistence(appsettingstableviewcontrollerTableviewTable.staticTexts["Help"])
         let helpMenu = appsettingstableviewcontrollerTableviewTable.cells["Help"]
         XCTAssertTrue(helpMenu.isEnabled)
         helpMenu.tap()
@@ -33,27 +46,21 @@ class SettingsTest: BaseTestCase {
         waitForValueContains(app.textFields["url"], value: "support.mozilla.org")
         waitforExistence(app.webViews.staticTexts["Firefox for iOS"])
         XCTAssertTrue(app.webViews.staticTexts["Firefox for iOS"].exists)
-        
         let numTabs = app.buttons["Show Tabs"].value
         XCTAssertEqual("2", numTabs as? String, "Sume should be open in a different tab")
     }
 }
-
-
 extension XCTestCase {
     
     func wait(for duration: TimeInterval) {
         let waitExpectation = expectation(description: "Waiting")
-        
         let when = DispatchTime.now() + duration
         DispatchQueue.main.asyncAfter(deadline: when) {
             waitExpectation.fulfill()
         }
-        
         // We use a buffer here to avoid flakiness with Timer on CI
         waitForExpectations(timeout: duration + 0.5)
-        
     }
-    
 }
+
 
