@@ -67,7 +67,7 @@ class LeanplumIntegration {
     private var enabled: Bool = false
     
     func shouldSendToLP() -> Bool {
-        return enabled && Leanplum.hasStarted() && !UIApplication.isInPrivateMode
+        return enabled && Leanplum.hasStarted()
     }
 
     func setup(profile: Profile) {
